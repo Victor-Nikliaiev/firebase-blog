@@ -15,11 +15,13 @@ export const Home = ({ isAuth }) => {
         const getPosts = async () => {
             const data = await getDocs(postCollectionRef);
             setPostList(
-                data.docs.map(doc => ({
-                    ...doc.data(),
-                    id: doc.id,
-                    createdAt: new Date(doc.data().createdAt),
-                }))
+                data.docs
+                    .map(doc => ({
+                        ...doc.data(),
+                        id: doc.id,
+                        createdAt: new Date(doc.data().createdAt),
+                    }))
+                    .sort((a, b) => b.createdAt - a.createdAt)
             );
         };
         getPosts();
