@@ -31,7 +31,11 @@ function App() {
                         <button onClick={signUserOut}>Logout</button>
                     </>
                 )}
-                {isAuth && <em>Hello, {auth.currentUser?.displayName}</em>}
+                {isAuth && (
+                    <p>
+                        <em>Hello, {localStorage.getItem("userName")}</em>
+                    </p>
+                )}
             </nav>
 
             <Routes>
