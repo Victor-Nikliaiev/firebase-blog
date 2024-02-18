@@ -6,6 +6,9 @@ import { Login } from "./pages/Login.jsx";
 import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase-config.js";
+import { GrLogout, GrLogin } from "react-icons/gr";
+import { IoHomeOutline } from "react-icons/io5";
+import { LuPencilLine } from "react-icons/lu";
 
 function App() {
     const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
@@ -21,19 +24,28 @@ function App() {
     return (
         <Router>
             <nav>
-                <Link to='/'>Home</Link>
+                <Link to='/'>
+                    <IoHomeOutline /> Home
+                </Link>
                 {!isAuth ? (
-                    <Link to='/login'>Login</Link>
+                    <Link to='/login'>
+                        <GrLogin /> Login
+                    </Link>
                 ) : (
                     <>
-                        <Link to='/createpost'>CreatePost</Link>
-
-                        <button onClick={signUserOut}>Logout</button>
+                        <Link to='/createpost'>
+                            <LuPencilLine /> Create post
+                        </Link>
+                        <p onClick={signUserOut} className='logout'>
+                            <GrLogout onClick={signUserOut} /> Logout
+                        </p>
                     </>
                 )}
                 {isAuth && (
                     <p>
-                        <em>Hello, {localStorage.getItem("userName")}</em>
+                        <span className='welcomeUser'>
+                            Hello, {localStorage.getItem("userName")}
+                        </span>
                     </p>
                 )}
             </nav>

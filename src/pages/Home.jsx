@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import { db, auth } from "../firebase-config.js";
+import { MdDelete } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa";
+import { CiCalendarDate } from "react-icons/ci";
+import { IoMdTime } from "react-icons/io";
 
 export const Home = ({ isAuth }) => {
     const postCollectionRef = collection(db, "posts");
@@ -35,25 +39,34 @@ export const Home = ({ isAuth }) => {
                     <div className='post' key={post.id}>
                         <div className='postHeader'>
                             <div className='title'>
-                                <h1>{post.title}</h1>
+                                <h2>{post.title}</h2>
                             </div>
                             <div className='deletePost'>
                                 {isAuth &&
                                     post.author.id === auth.currentUser.uid && (
                                         <button
+                                            className='deletePost'
                                             onClick={() => deletePost(post.id)}
                                         >
-                                            &#128465;
+                                            <MdDelete />
                                         </button>
                                     )}
                             </div>
                         </div>
-                        <div className='postTextContainer'>{post.postText}</div>
-                        <h3>
-                            @{post.author.name} (
-                            {post.createdAt.toLocaleDateString()} -
-                            {post.createdAt.toLocaleTimeString()})
-                        </h3>
+                        <div className='postContent'>
+                            <div className='postTextContainer'>
+                                {post.postText}
+                            </div>
+                            <h4>
+                                <FaRegUser /> {post.author.name}
+                            </h4>
+                            <span>
+                                <CiCalendarDate />
+                                {post.createdAt.toLocaleDateString()}{" "}
+                                <IoMdTime />
+                                {post.createdAt.toLocaleTimeString()}
+                            </span>
+                        </div>
                     </div>
                 );
             })}
