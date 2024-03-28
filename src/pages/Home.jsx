@@ -57,6 +57,9 @@ export const Home = ({ isAuth }) => {
                             <div className='postTextContainer'>
                                 {post.postText}
                             </div>
+                            {post.imageLink && (
+                                <img src={post.imageLink} alt='post' />
+                            )}
                             <h4>
                                 <FaRegUser /> {post.author.name}
                             </h4>

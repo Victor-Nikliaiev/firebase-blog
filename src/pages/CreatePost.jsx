@@ -8,17 +8,25 @@ export const CreatePost = ({ isAuth }) => {
     const [postText, setPostText] = useState("");
     const postCollectionRef = collection(db, "posts");
     const navigate = useNavigate();
+    const [imageLink, setImageLink] = useState(null);
 
     const createPost = async () => {
-        await addDoc(postCollectionRef, {
+        let post = {
             title,
             postText,
+            imageLink,
             author: {
                 name: auth.currentUser.displayName || auth.currentUser.email,
                 id: auth.currentUser.uid,
             },
             createdAt: Date.now(),
-        });
+        };
+
+        if (imageLink) {
+            post.imageLink = imageLink;
+        }
+
+        await addDoc(postCollectionRef, post);
         navigate("/");
     };
 
@@ -44,6 +52,13 @@ export const CreatePost = ({ isAuth }) => {
                     <textarea
                         placeholder='Post...'
                         onChange={e => setPostText(e.target.value)}
+                    />
+                </div>
+                <div className='inputGp'>
+                    <label>Img url:</label>
+                    <input
+                        placeholder='Image URL...'
+                        onChange={e => setImageLink(e.target.value)}
                     />
                 </div>
                 <button onClick={createPost}>Submit Post</button>
